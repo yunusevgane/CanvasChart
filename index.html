@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="tests" width="600" height="300" style="background-color: #e9e9e9; font-size: 25px"></canvas>
+    <canvas id="tests2" width="600" height="300" style="background-color: #e9e9e9; font-size: 25px"></canvas>
+    <canvas id="tests3" width="600" height="300" style="background-color: #e9e9e9; font-size: 25px"></canvas>
+
+
+    <script>
+        let datans = {
+
+            tab: ["d1", "d2", "d3", "d4", "d5"],
+            data: {
+                s1: [3, 34, 21, 4, 40],
+                s2: [23, 4, 7, 15, 23],
+                s3: [12, 9, 5, 23, 8],
+                s4: [12, 9, 5, 23, 10],
+            },
+
+
+            fontSize: 14, //opsiyonel
+            fontColor: "#028A3F", //opsiyonel
+
+        };
+
+        let datans2 = {
+
+            tab: ["d1", "d2", "d3", "d4"],
+            data: {
+                s1: [3, 40, 21, 4],
+                s2: [23, 4, 7, 15],
+                s3: [12, 9, 5, 23],
+            },
+
+            fontSize: 14, //opsiyonel
+            fontColor: "#028A3F", //opsiyonel
+        };
+
+        canvastab(datans, "tests");
+        canvastab2(datans2, "tests2");
+        canvastab3(datans, "tests3");
+
+
+
+
+        function canvastab3(data, id) {
+            let cvv = document.getElementById(id);
+            let width = cvv.width;
+            let height = cvv.height;
+            let borderS = 1;
+
+            let fontColor = "#000";
+            if (data.fontColor) {
+                fontColor = data.fontColor;
+            }
+
+            let fontSize = 12;
+            if (data.fontSize) {
+                fontSize = data.fontSize;
+            }
+
+
+            let colorBox = ["#5898D1", "#E97E32", "#A5A4A0", "#028A3F", "#5898D1", "#E97E32", "#A5A4A0", "#028A3F", "#5898D1", "#E97E32", "#A5A4A0", "#028A3F", "#5898D1", "#E97E32", "#A5A4A0", "#028A3F"]
+
+
+            let canvas = document.getElementById(id);
+            let ctx = canvas.getContext("2d");
+            ctx.font = fontSize + "px " + data.fontfamily;
+
+            let tabListDS = 6;
+            carpan = 3;
+
+            yuksek = 0;
+            for (let enyuksek in data.data) {
+                for (let index = 0; index < data.data[enyuksek].length; index++) {
+                    if (yuksek < data.data[enyuksek][index]) {
+                        yuksek = data.data[enyuksek][index];
+                    }
+                }
+            }
+            kis = yuksek.toString().length - 1;
+            yuksek = yuksek.toString();
+            const orNum = (parseInt(yuksek.substring(0, kis)) + 1) * 10;
+
+
+
+            for (let i = 0; i < tabListDS - 1; i++) {
+                ctx.fillStyle = fontColor;
+                ciz(
+                    id,
+                    fontSize * 3,
+                    height - (height / tabListDS) * i - height / tabListDS,
+                    width - fontSize * 3,
+                    height - (height / tabListDS) * i - height / tabListDS
+                );
+
+                ctx.fillStyle = fontColor;
+                ctx.textAlign = "right";
+                ctx.fillText(
+                    i * (orNum / 40) * 10,
+                    fontSize * 2,
+                    height -
+                    (height / tabListDS) * i -
+                    height / tabListDS +
+                    fontSize / 2 -
+                    2
+                );
+            }
+
+            let datas = Object.keys(data.data).length;
+            tabs = data.tab.length;
+            td = tabs * datas;
+            columnN = tabs * datas + tabs * 2 - 2;
+            columnN = columnN * 3;
+            immd = 0;
+            iddd = fontSize * 3;
+            colorNumber = 0;
+
+
+
+            colorNumber = 0
+            for (let dataNumber in data.data) {
+                nextR = fontSize * 4
+                columnH2 = (height / 3) * 2;
+                columnH = (columnH2 / orNum) * data.data[dataNumber][0];
+                ctx.beginPath();
+                ctx.moveTo(nextR, height - columnH - (height / 6));
+                ctx.strokeStyle = colorBox[colorNumber];
+                ctx.fillStyle = colorBox[colorNumber]
+                for (let tabLength = 1; tabLength < data.tab.length; tabLength++) {
+                    columnH = (columnH2 / orNum) * data.data[dataNumber][tabLength];
+                    nextR += (width + fontSize * 2) / data.tab.length;
+                    ctx.lineTo(nextR, height - columnH - (height / 6));
+                }
+                colorNumber += 1;
+                ctx.stroke();
+                iddd += ((width - fontSize * 6) / columnN) * 6;
+            }
+
+
+
+            let datasm = Object.keys(data.data).length;
+            tabs = data.tab.length;
+            td = tabs * datas;
+            columnN = tabs * datas + tabs * 2 - 2;
+            columnN = columnN * 3;
+            immd = 0;
+            iddd = fontSize * 3;
+            for (let tabLength = 0; tabLength < data.tab.length; tabLength++) {
+                colorNumber = 0;
+                for (let dataNumber in data.data) {
+                    columnH2 = (height / 3) * 2;
+                    columnH = (columnH2 / orNum) * data.data[dataNumber][tabLength];
+                    genislik = (width - fontSize * 6) / columnN;
+
+                    if (colorNumber == Math.round(Object.keys(data.data).length / 2) - 1) {
+                        ctx.fillStyle = fontColor;
+                        ctx.textAlign = "center";
+                        ctx.fillText(data.tab[tabLength], iddd + genislik, height - height / 6 + 20);
+                    }
+                    ctx.fillStyle = colorBox[colorNumber]
+                    colorNumber += 1;
+                    immd += 1;
+                    a = 1;
+                    y = height - height / 6 - columnH;
+                    iddd += ((width - fontSize * 6) / columnN) * 3;
+                }
+                iddd += ((width - fontSize * 6) / columnN) * 6;
+            }
+
+
+
+            total = 0
+            for (var evet in data.data) {
+                total += ((evet.length + 2) * fontSize * 0.8)
+            }
+
+            evetd = ((width - total) / 2) - fontSize
+            renkboxx = 0
+            for (var evet in data.data) {
+                ctx.fillStyle = colorBox[renkboxx];
+                ctx.fillRect(evetd, height + fontSize / 2 - fontSize * 2, fontSize * 2, fontSize / 2);
+                ctx.fillStyle = fontColor;
+                ctx.textAlign = "left";
+                ctx.fillText(evet, evetd + fontSize * 2 + 5, height - fontSize);
+                evetd = evetd + (evet.length * fontSize) + fontSize + fontSize
+                renkboxx += 1
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function canvastab2(data, id) {
+            let cvv = document.getElementById(id);
+            let width = cvv.width;
+            let height = cvv.height;
+            let borderS = 1;
+
+            let fontColor = "#000";
+            if (data.fontColor) {
+                fontColor = data.fontColor;
+            }
+
+
+
+            let fontSize = 12;
+            if (data.fontSize) {
+                fontSize = data.fontSize;
+            }
+
+
+            let colorBox = ["#5898D1", "#E97E32", "#A5A4A0", "#028A3F", "#5898D1", "#E97E32", "#A5A4A0", "#028A3F", "#5898D1", "#E97E32", "#A5A4A0", "#028A3F", "#5898D1", "#E97E32", "#A5A4A0", "#028A3F"]
+
+
+            let canvas = document.getElementById(id);
+            let ctx = canvas.getContext("2d");
+            ctx.font = fontSize + "px " + data.fontfamily;
+
+            let tabListDS = 6;
+            carpan = 3;
+
+            yuksek = 0;
+            for (let enyuksek in data.data) {
+                for (let index = 0; index < data.data[enyuksek].length; index++) {
+                    if (yuksek < data.data[enyuksek][index]) {
+                        yuksek = data.data[enyuksek][index];
+                    }
+                }
+            }
+            kis = yuksek.toString().length - 1;
+            yuksek = yuksek.toString();
+            orNum = (parseInt(yuksek.substring(0, kis)) + 1) * 10;
+
+
+
+            for (let i = 0; i < tabListDS - 1; i++) {
+                ctx.fillStyle = fontColor;
+                ciz(
+                    id,
+                    fontSize * 3,
+                    height - (height / tabListDS) * i - height / tabListDS,
+                    width - fontSize * 3,
+                    height - (height / tabListDS) * i - height / tabListDS
+                );
+
+                ctx.fillStyle = fontColor;
+                ctx.textAlign = "right";
+                ctx.fillText(
+                    i * (orNum / 40) * 10,
+                    fontSize * 2,
+                    height -
+                    (height / tabListDS) * i -
+                    height / tabListDS +
+                    fontSize / 2 -
+                    2
+                );
+            }
+
+            let datas = Object.keys(data.data).length;
+            tabs = data.tab.length;
+            td = tabs * datas;
+            columnN = tabs * datas + tabs * 2 - 2;
+            columnN = columnN * 3;
+            immd = 0;
+            iddd = fontSize * 3;
+            for (let tabLength = 0; tabLength < data.tab.length; tabLength++) {
+
+                colorNumber = 0;
+                for (let dataNumber in data.data) {
+                    columnH2 = (height / 3) * 2;
+                    columnH = (columnH2 / orNum) * data.data[dataNumber][tabLength];
+                    genislik = (width - fontSize * 6) / columnN;
+
+                    if (colorNumber == Math.round(Object.keys(data.data).length / 2) - 1) {
+                        ctx.fillStyle = fontColor;
+                        ctx.textAlign = "center";
+                        ctx.fillText(data.tab[tabLength], iddd + genislik, height - height / 6 + 20);
+                    }
+                    ctx.fillStyle = colorBox[colorNumber]
+                    colorNumber += 1;
+                    immd += 1;
+                    a = 1;
+                    y = height - height / 6 - columnH;
+                    ctx.fillRect(iddd, y, genislik * 2, columnH);
+                    iddd += ((width - fontSize * 6) / columnN) * 3;
+                }
+                iddd += ((width - fontSize * 6) / columnN) * 6;
+            }
+
+
+
+            total = 0
+            for (var evet in data.data) {
+                total += ((evet.length + 2) * fontSize * 0.8)
+            }
+
+
+            evetd = ((width - total) / 2)
+
+
+            renkboxx = 0
+            for (var evet in data.data) {
+                ctx.fillStyle = colorBox[renkboxx];
+                ctx.fillRect(evetd, height - fontSize * 2, fontSize, fontSize);
+                ctx.fillStyle = fontColor;
+                ctx.textAlign = "left";
+                ctx.fillText(evet, evetd + fontSize + 5, height - fontSize);
+                evetd = evetd + (evet.length * fontSize / 1.5) + fontSize + fontSize
+                renkboxx += 1
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        function cızkup(params) { }
+
+        function canvastab(data, id) {
+            let cvv = document.getElementById(id);
+            let width = cvv.width;
+            let height = cvv.height;
+            let tabListDS = Object.keys(data.tab).length;
+            let tabListT = data.tab.length;
+            let tabListTS = tabListT + 1;
+            let borderS = 1;
+            let fontSize = data.fontSize;
+
+            var datasayi = Object.keys(data.data).length;
+
+            let canvas = document.getElementById(id);
+            let canvasx = canvas.getContext("2d");
+
+            ciz(id, 0, borderS, width, borderS);
+            ciz(id, 0, height - borderS, width, height - borderS);
+            ciz(id, width - 1, height, width - 1, 0);
+            ciz(id, 0, height, 1, 1);
+            var ctx = canvas.getContext("2d");
+
+            ctx.font = fontSize + "px " + data.fontfamily;
+
+            for (let i = 0; i < tabListDS; i++) {
+                ciz(id, 0, (height / tabListDS) * i, width, (height / tabListDS) * i);
+            }
+
+            for (let i = 0; i < tabListTS + 1; i++) {
+                ciz(id, (width / tabListTS) * i, height, (width / tabListTS) * i, 0);
+            }
+            ctx.fillStyle = "#f00";
+            var GTop = height / datasayi + fontSize * 2;
+            isa = 0;
+            for (let i in data.data) {
+                ctx.textAlign = "left";
+                ctx.fillText(
+                    i,
+                    2,
+                    (height / (datasayi + 1)) * isa + GTop - fontSize / 2
+                );
+
+                for (let ii = 0; ii < data.data[i].length; ii++) {
+                    if (isNumber(data.data[i][ii]) == true) {
+                        ctx.textAlign = "right";
+                        ctx.fillText(
+                            data.data[i][ii],
+                            (width / (data.tab.length + 1)) * ii -
+                            2 +
+                            (width / (data.tab.length + 1)) * 2,
+                            (height / (datasayi + 1)) * isa + GTop - fontSize / 2
+                        );
+                    } else {
+                        ctx.textAlign = "left";
+                        ctx.fillText(
+                            data.data[i][ii],
+                            (width / (data.tab.length + 1)) * ii + 2,
+                            (height / (datasayi + 1)) * isa + GTop - fontSize / 2
+                        );
+                    }
+                }
+
+                isa += 1;
+            }
+
+            for (let ii = 0; ii < data.tab.length; ii++) {
+                ctx.fillStyle = "#f00";
+                ctx.textAlign = "left";
+                ctx.fillText(
+                    data.tab[ii],
+                    (width / (data.tab.length + 1)) * ii +
+                    width / (data.tab.length + 1) +
+                    2,
+                    height / datasayi / 2 - fontSize / 2
+                );
+            }
+        }
+        function isNumber(n) {
+            return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+        }
+        function ciz(id, x1, x2, x3, x4) {
+            let canvas = document.getElementById(id);
+            let canvasx = canvas.getContext("2d");
+            canvasx.strokeStyle = "#999";
+            canvasx.moveTo(x1, x2);
+            canvasx.lineTo(x3, x4);
+            canvasx.stroke();
+        }
+    </script>
+</body>
+
+</html>
