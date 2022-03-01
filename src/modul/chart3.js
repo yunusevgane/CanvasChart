@@ -83,6 +83,7 @@ function chart(data) {
                 Math.round(Object.keys(data.data).length / 2) - 1
             ) {
                 ctx.textAlign = "center";
+                ctx.fillStyle = fontColor;
                 ctx.fillText(
                     data.tab[tabLength],
                     iddd + genislik,
